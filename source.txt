@@ -1,0 +1,62 @@
+import os
+import cv2
+import tkinter as tk
+import time
+
+chat_response = 'Математика крута наука'
+chat_response_lower = chat_response.lower()
+list_chat_response = chat_response_lower.split()
+frameTime = 1
+
+path = "C:/Users/Oleksyi/Desktop/project/videos"
+dir_list = os.listdir(path)
+
+for word in range(0, len(list_chat_response), 3):
+    word_path = os.path.join(path, word + ".mp4")
+
+    if os.path.exists(word_path):
+        video_path_word = word_path
+
+        cap = cv2.VideoCapture(video_path_word)
+
+        cv2.namedWindow('Video', cv2.WINDOW_NORMAL)
+        cv2.resizeWindow('Video', 420, 260)
+
+        while True:
+            ret, frame = cap.read()
+            if not ret:
+                break
+
+            cv2.imshow('Video', frame)
+
+            if cv2.waitKey(frameTime) & 0xFF == ord('q'):
+                break
+
+        cap.release()
+        cv2.destroyAllWindows()
+    else:
+        for letter in word:
+            video_path_letter = os.path.join(path, f"{letter}.mp4")
+
+            if os.path.exists(video_path_letter):
+                cap = cv2.VideoCapture(video_path_letter)
+
+                cv2.namedWindow('Video', cv2.WINDOW_NORMAL)
+                cv2.resizeWindow('Video', 420, 260)
+
+                while True:
+                    ret, frame = cap.read()
+                    if not ret:
+                        break
+
+                    cv2.imshow('Video', frame)
+
+                    if cv2.waitKey(frameTime) & 0xFF == ord('q'):
+                        break
+
+                cap.release()
+                cv2.destroyAllWindows()
+            else:
+                pass
+
+        time.sleep(5)
